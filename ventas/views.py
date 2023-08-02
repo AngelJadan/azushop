@@ -8,18 +8,22 @@ from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.generics import ListAPIView
 import datetime
+from django.http.response import HttpResponse
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.decorators import api_view
-from ventas.models import Bilding, CarShop, CatalogProduct, Product
+from ventas.models import Bilding, CarShop, CatalogProduct, DetailBilding, Product
 from ventas.recomendador.api_facebook import get_data_facebook, publish_image_facebook
 from ventas.recomendador.knn import run_knn
-from ventas.serializers import BildingSerializer, CarShopReadSerializer, CarShopSerializer, ProductSerialiezer
+from ventas.serializers import BildingReadSerializer, BildingSerializer, CarShopReadSerializer, CarShopSerializer, ProductSerialiezer
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.permissions import AllowAny
-
+from django.template.loader import render_to_string
+from weasyprint import HTML
+from weasyprint.text.fonts import FontConfiguration
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 class RegisterUsers(APIView):
     """Clase para usuarios para registrar un nuevo usuario.
@@ -179,11 +183,12 @@ class BildingAPI(APIView):
 
 class ListBildingsClient(ListAPIView):
     permission_classes = [IsAuthenticated]
-    serializer_class =  ProductSerialiezer
+    serializer_class =  BildingReadSerializer
 
     @action(detail=False, method="GET")
     def get_queryset(self):
-        return Bilding.objects.filter(client=self.kwargs['client'])
+        data = Bilding.objects.filter(client=self.kwargs['client'])
+        return data
     
     
 
@@ -241,4 +246,40 @@ class View_products_recomeders(ListAPIView):
 
     def get_queryset(self):
         data = run_knn(self.kwargs["id_product"])
+        #print(f"data {data}")
         return data
+    
+@csrf_exempt
+def view_bilding(request,id_bilding):
+    try:
+        data = Bilding.objects.get(id=id_bilding)
+        details= []
+        for detail in DetailBilding.objects.filter(bilding=data):
+            details.append(
+                {
+                    "id":detail.id,
+                    "key":detail.product.key,
+                    "description":detail.product.description,
+                    "price_unit":detail.price_unit,
+                    "amount":detail.amount
+                }
+            )
+        context = {
+            "id":data.id,
+            "date":data.date,
+            "secuence":data.secuence,
+            "client":data.client,
+            "details":details
+        }
+        html = render_to_string("view_bilding.html", context)
+
+        response = HttpResponse(content_type="application/pdf")
+        response["Content-Disposition"] = "inline; report.pdf"
+        font_config = FontConfiguration()
+        HTML(string=html).write_pdf(response, font_config=font_config)
+
+        return response
+    except Bilding.DoesNotExist:
+        return HttpResponse("No existe un documento con este id")
+
+

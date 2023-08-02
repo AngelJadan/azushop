@@ -18,7 +18,7 @@ class CatalogProductAdmin(admin.ModelAdmin):
     list_display = ("id", "image", "product")
 
 class BildingAdmin(admin.ModelAdmin):
-    list_display = ("id", "date", "secuence")
+    list_display = ("id", "date", "secuence","client")
 
 
 class DetailBildingAdmin(admin.ModelAdmin):

@@ -67,7 +67,7 @@ class Bilding(models.Model):
     id = models.AutoField(db_column="bil_id", db_index=True,primary_key=True, verbose_name="Id")
     date = models.DateField(db_column="bil_date",auto_now_add=True, verbose_name="Date")
     secuence = models.IntegerField(db_column="bil_secuence", verbose_name="Secuence")
-    client = models.ForeignKey(Client, on_delete=models.CASCADE, db_column="bil_client",verbose_name="Client")
+    client = models.ForeignKey(User, on_delete=models.CASCADE, db_column="bil_client",verbose_name="Client")
     
     class Meta:
         verbose_name = "Bilding"
@@ -81,7 +81,7 @@ class DetailBilding(models.Model):
     price_unit = models.FloatField(db_column="dbi_price_unit", verbose_name="Price unit")
     amount = models.FloatField(db_column="dbi_amount", verbose_name="Amount")
     bilding = models.ForeignKey(Bilding, db_column="dbi_bilding", related_name="detail_bilding", on_delete=models.CASCADE, verbose_name="Bilding")
-
+    product = models.ForeignKey(Product, db_column="dbi_product",   related_name="detail_product", on_delete=models.CASCADE, verbose_name="Product")
     class Meta:
         verbose_name = "Detail bilding"
         verbose_name_plural = "Detail bildings"

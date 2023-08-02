@@ -14,4 +14,5 @@ urlpatterns = [
     path("list-car/<int:client>/", views.ListCar.as_view(), name="list_car"),
     path("bilding/", views.BildingAPI.as_view(), name="bilding"),
     path("list-bildings/<int:client>/", views.ListBildingsClient.as_view(), name="list-bildings-client"),
+    path("view_bilding/<int:id_bilding>/", views.view_bilding, name="view_bilding"),
 ]
