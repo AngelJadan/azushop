@@ -223,7 +223,7 @@ def publish_product(request, id_product):
     Para publicar la imagen en facebook
     """
     product = Product.objects.get(id=id_product)
-    if product.id_publisher!=None:
+    if product.id_publisher==None:
         catalog = CatalogProduct.objects.filter(product=product)
         #path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
         if len(catalog)>0:
