@@ -231,7 +231,7 @@ def publish_product(request, id_product):
         resp = publish_image_facebook(path_publish,product.description)
         if resp.get("id"):
             Product.objects.filter(id=id_product).update(id_publisher=resp.get("post_id"))
-        return Response({"sms":resp}, status=status.HTTP_200_OK)
+        return Response({"sms":f"{resp} {path_publish}"}, status=status.HTTP_200_OK)
     else:
         return Response({"error":"No existe una imagen cargada para publicar"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
