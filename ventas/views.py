@@ -223,18 +223,21 @@ def publish_product(request, id_product):
     Para publicar la imagen en facebook
     """
     product = Product.objects.get(id=id_product)
-    catalog = CatalogProduct.objects.filter(product=product)
-    #path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
-    if len(catalog)>0:
-        path_publish = f"http://34.196.68.91:8080{catalog[0].image.url}"
-        #print(path_publish)
-        resp = ""
-        resp = publish_image_facebook(path_publish,product.description)
-        if resp.get("id"):
-            Product.objects.filter(id=id_product).update(id_publisher=resp.get("post_id"))
-        return Response({"sms":f"{resp} {path_publish}"}, status=status.HTTP_200_OK)
+    if product.id_publisher!=None:
+        catalog = CatalogProduct.objects.filter(product=product)
+        #path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
+        if len(catalog)>0:
+            path_publish = f"http://34.196.68.91:8080{catalog[0].image.url}"
+            #print(path_publish)
+            resp = ""
+            resp = publish_image_facebook(path_publish,product.description)
+            if resp.get("id"):
+                Product.objects.filter(id=id_product).update(id_publisher=resp.get("post_id"))
+            return Response({"sms":f"{resp} {path_publish}"}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error":"No existe una imagen cargada para publicar"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
-        return Response({"error":"No existe una imagen cargada para publicar"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return  Response({"error":"Ya existe una publicación realizada"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def image(request,id_catalog):
     """
