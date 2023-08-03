@@ -3,6 +3,16 @@ from django.db import models
 from django.contrib.auth.models import User
 # Create your models here.
 
+class APIFaceModel(models.Model):
+    id = models.AutoField(db_column="afa_id", db_index=True, primary_key=True, verbose_name="ID")
+    token = models.CharField(db_column="afa_token", max_length=2000, verbose_name="API token")
+
+    class Meta:
+        verbose_name = "APIFacebook"
+        verbose_name_plural = "APIFacebooks"
+
+    def __str__(self):
+        return f"{self.id}"
 TYPE_DNI = (
     ("1","Cedula"),
     ("2","RUC"),

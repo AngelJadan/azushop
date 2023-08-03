@@ -1,7 +1,10 @@
 import facebook
 import requests
 
-access_token = 'EAAILMksB9q8BO5bWZCLZAUrZAa34VtZAMg8TivVKFijYbVbrLR0UIyFaCuUaoNiGPkV9V0ESlQfR3byeksZCZCN3VBw9EHxTDGJ3Rgd4rtVRKAZBou3ZCzwBmEtvUZAUt2ZBfY8JZAGS8kCBi0mAXMnfSEEzH2ed7WjHT6vRwjJbsBe7p0WW8gYchBV4rmeg3yTZCK0EXWTXVZC3uy0JfRdnbAhhSmXvyoefpTEP4fsZC8ZCffW'
+#from ventas.models import APIFaceModel
+#api_facebook_model =APIFaceModel.objects.all()
+#access_token = api_facebook_model[0].token
+access_token = ""
 graph = facebook.GraphAPI(access_token)
 
 def get_data_facebook():
