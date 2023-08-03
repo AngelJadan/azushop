@@ -27,6 +27,11 @@ class DetailBildingAdmin(admin.ModelAdmin):
 class CarShopAdmin(admin.ModelAdmin):
     list_display = ("id","amount","product")
 
+
+class APIFaceModelAdmin(admin.ModelAdmin):
+    list_display = ("id","token")
+
+admin.site.register(APIFaceModel, APIFaceModelAdmin)
 admin.site.register(Client, ClientAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(CatalogProduct, CatalogProductAdmin)
