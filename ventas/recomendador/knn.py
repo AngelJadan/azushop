@@ -13,7 +13,7 @@ def run_knn(id_producto):
     data = get_data_facebook()
     #procesa a solo comentarios.
     process_data = data.get("published_posts").get("data")
-    #print(f"process_data {process_data}")
+    print(f"process_data {process_data}")
     data_for_knn = []
     for dat in process_data:
         if dat.get("comments"):
