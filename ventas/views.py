@@ -224,12 +224,16 @@ def publish_product(request, id_product):
     """
     product = Product.objects.get(id=id_product)
     catalog = CatalogProduct.objects.filter(product=product)
-    path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
-    print(path_publish)
-    resp = publish_image_facebook(path_publish,product.description)
-    if resp.get("id"):
-        Product.objects.filter(id=id_product).update(id_publisher=resp.get("post_id"))
-    return Response({"sms":resp}, status=status.HTTP_200_OK)
+    #path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
+    if len(path_publish)>0:
+        path_publish = catalog[0].image
+        #print(path_publish)
+        resp = publish_image_facebook(path_publish,product.description)
+        if resp.get("id"):
+            Product.objects.filter(id=id_product).update(id_publisher=resp.get("post_id"))
+        return Response({"sms":resp}, status=status.HTTP_200_OK)
+    else:
+        return Response({"error":"No existe una imagen cargada para publicar"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 def image(request,id_catalog):
     """
