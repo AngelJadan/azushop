@@ -226,8 +226,9 @@ def publish_product(request, id_product):
     catalog = CatalogProduct.objects.filter(product=product)
     #path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
     if len(catalog)>0:
-        path_publish = catalog[0].image
+        path_publish = f"http://34.196.68.91:8080{catalog[0].image.url}"
         #print(path_publish)
+        resp = ""
         resp = publish_image_facebook(path_publish,product.description)
         if resp.get("id"):
             Product.objects.filter(id=id_product).update(id_publisher=resp.get("post_id"))
