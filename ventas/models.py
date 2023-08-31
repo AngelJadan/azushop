@@ -49,6 +49,7 @@ class Product(models.Model):
     iva = models.CharField(db_column="pro_iva", max_length=2, choices=IVA, verbose_name="IVA")
     description = models.CharField(db_column="pro_description", verbose_name="Description")
     id_publisher = models.CharField(db_column="pro_publisher", max_length=500, null=True, blank=True, default=None,verbose_name="Publisher ID facebook")
+    image = models.ImageField(db_column="pro_image", upload_to="images/")
     user = models.ForeignKey(User, db_column="pro_user", on_delete=models.CASCADE, verbose_name="User")
 
     class Meta:

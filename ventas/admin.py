@@ -11,7 +11,7 @@ class ClientAdmin(admin.ModelAdmin):
 
 
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ("id", "key", "name", "price", "description", "id_publisher", "user")
+    list_display = ("id", "key", "name", "price", "description", "id_publisher", "image","user")
     search_fields = ("key", "name")
 
 class CatalogProductAdmin(admin.ModelAdmin):

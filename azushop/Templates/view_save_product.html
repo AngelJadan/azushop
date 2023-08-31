@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New product</title>
+</head>
+<body>
+    <style>
+        /* Puedes incluir tus estilos CSS aquí */
+        .form-label {
+            width: 150px; /* Ajusta el tamaño de fuente según tus necesidades */
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        label{
+            font-family: Arial, Helvetica, sans-serif;
+        }
+        body, html {
+            height: 50%;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+    <div style="align-items: center;">
+        <div style="margin-left: 100px;">
+            <label for="" style="margin-left: 70px; font-weight: bold;">New product</label>
+            <br>
+            <a style="margin-left: 90px;" href="/">Home</a>
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Register</button>
+             </form>
+             {% if form.errors %}
+                <div class="error">
+                    <h3>Errores en el formulario:</h3>
+                    {{ form.errors }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

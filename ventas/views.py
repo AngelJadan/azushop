@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework.decorators import action
-from ventas.forms import UserForm
+from ventas.forms import FormProduct, UserForm
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.generics import ListAPIView
@@ -198,6 +198,21 @@ def api_facebook_consumer(request):
     data = get_data_facebook()
     return Response({"data":data},status=status.HTTP_200_OK)
 
+def view_imput_new_product(request):
+    if request.method=="POST":
+        form = FormProduct(request.POST, request.FILES)
+        if form.is_valid():
+            product = form.save(commit=False)
+            product.user = request.user
+            product.save()
+            return HttpResponse("Product saved successfully <br> <a href='/ventas/view_imput_new_product/'>Return</a>")
+        else:
+            context = {"form":form}
+            return render(request, "view_save_product.html", context)
+    else:
+        form = FormProduct
+        context = {"form":form}
+        return render(request, "view_save_product.html", context)
 
 def view_list_images(request):
     products = []
@@ -212,7 +227,9 @@ def view_list_images(request):
             "name":product.name,
             "iva":valor_iva,
             "total":total,
-            "description":product.description
+            "description":product.description,
+            "id_published":product.id_publisher,
+            "image":product.image
         })
     context = {"products":products}
     return render(request, "list_products.html", context)
@@ -224,10 +241,8 @@ def publish_product(request, id_product):
     """
     product = Product.objects.get(id=id_product)
     if product.id_publisher==None:
-        catalog = CatalogProduct.objects.filter(product=product)
-        #path_publish = "https://mobilestore.ec/wp-content/uploads/2023/04/HONOR-Magic-5-Lite-Verde-Mobile-Store-Ecuador.jpg"
-        if len(catalog)>0:
-            path_publish = f"http://34.196.68.91:8080{catalog[0].image.url}"
+        if product.image!=None:
+            path_publish = product.image
             #print(path_publish)
             resp = ""
             resp = publish_image_facebook(path_publish,product.description)

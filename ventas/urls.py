@@ -3,6 +3,7 @@ from django.urls import path
 from ventas import views
 
 urlpatterns = [
+    path("view_imput_new_product/", views.view_imput_new_product, name="view_imput_new_product"),
     path("list-all-products/", views.ListAllProduct.as_view(), name="list-all-products"),
     path("api-facebook-consumer/", views.api_facebook_consumer, name="api_facebook_consumer"),
     path("view_list_images/", views.view_list_images, name="view_list_images"),

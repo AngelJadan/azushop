@@ -9,6 +9,7 @@
 <body>
     <div style="width: 90%; margin: 50px;">
         <h4>Products</h4>
+        <a href="/ventas/view_imput_new_product/">New product</a>
         <table class="table table-striped">
             <thead class="table-dark" >
                 <th>
@@ -30,7 +31,13 @@
                     Sum
                 </th>
                 <th>
+                    Id published
+                </th>
+                <th>
                     Publish
+                </th>
+                <th>
+                    Image
                 </th>
             </thead>
             <tbody>
@@ -54,8 +61,14 @@
                     <td>
                         {{item.total}}
                     </td>
+                    <td>
+                        {{item.id_published}}
+                    </td>
                     <th>
                         <input type="button" value="Publish in facebook" class="btn btn-primary" onclick="publishFacebook('{{item.id}}')">
+                    </th>
+                    <th>
+                        <a href="/media/{{item.image}}">Image</a>
                     </th>
                 </tr>
                 {% endfor %}    

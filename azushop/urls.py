@@ -34,6 +34,7 @@ urlpatterns = [
         template_name='documentation_api.html',
         extra_context={'schema_url':'openapi-schema'}
     ), name='documentation'),
+    path("", views.view_list_images, name=""),
     path('admin/', admin.site.urls),
     path('register-user/', views.RegisterUsers.as_view(), name="register-user"),
     path('login/',views.Login.as_view(),name="login"),
