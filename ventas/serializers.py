@@ -13,6 +13,21 @@ class CatalogProductSerializer(serializers.ModelSerializer):
         fields = "__all__"
     
 class ProductSerialiezer(serializers.ModelSerializer):
+    #product_catalog = CatalogProductSerializer(many=True, read_only=False)
+    class Meta:
+        model = Product
+        fields = (
+            "id",
+            "key",
+            "name",
+            "price",
+            "iva",
+            "description",
+            "id_publisher",
+            "image"
+        )
+
+class ProductCatalogSerialiezer(serializers.ModelSerializer):
     product_catalog = CatalogProductSerializer(many=True, read_only=False)
     class Meta:
         model = Product
