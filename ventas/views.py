@@ -242,7 +242,7 @@ def publish_product(request, id_product):
     product = Product.objects.get(id=id_product)
     if product.id_publisher==None:
         if product.image!=None:
-            path_publish = product.image
+            path_publish = f"https://www.azushop.anjcor.com/media/{product.image}"
             #print(path_publish)
             resp = ""
             resp = publish_image_facebook(path_publish,product.description)
