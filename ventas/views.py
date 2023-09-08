@@ -253,7 +253,7 @@ def publish_product(request, id_product):
             return Response({"error":"No existe una imagen cargada para publicar"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
     else:
         return  Response({"error":"Ya existe una publicación realizada"},status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+@csrf_exempt
 def image(request,id_catalog):
     """
     Para exponer la imagen en la web
