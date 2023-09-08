@@ -20,7 +20,7 @@ def publish_image_facebook(image_url, message):
     if len(access_token)>0:
         url = f"https://graph.facebook.com/me/photos?access_token={access_token}"
         payload = {
-            'url': "https://media.es.wired.com/photos/631f664b6fafe1c2145262eb/master/w_775%2Cc_limit/Samsung-Repair-Gear-Roundup-1230583299.jpg",
+            'url': image_url,
             'caption': message
         }
         try:
